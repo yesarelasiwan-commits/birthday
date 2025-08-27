@@ -111,6 +111,24 @@
       box-shadow: 0 0 25px rgba(56,249,215,0.9);
     }
 
+    /* Pesan suara page */
+    #voicePage {
+      display: none;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    #voicePage h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    audio {
+      margin-top: 20px;
+      width: 80%;
+      max-width: 400px;
+    }
+
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
@@ -118,30 +136,15 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5em;
-      }
-      #message {
-        font-size: 1.1em;
-      }
-      #gallery img {
-        max-width: 90%;
-        max-height: 60vh;
-      }
+      h1 { font-size: 2.5em; }
+      #message { font-size: 1.1em; }
+      #gallery img { max-width: 90%; max-height: 60vh; }
     }
 
     @media (max-width: 480px) {
-      h1 {
-        font-size: 2em;
-      }
-      #message {
-        font-size: 1em;
-        line-height: 1.6;
-      }
-      .btn, #nextBtn {
-        font-size: 1em;
-        padding: 10px 25px;
-      }
+      h1 { font-size: 2em; }
+      #message { font-size: 1em; line-height: 1.6; }
+      .btn, #nextBtn { font-size: 1em; padding: 10px 25px; }
     }
   </style>
 </head>
@@ -160,6 +163,15 @@
     <img id="galleryImage" src="" alt="Gallery Image">
     <br>
     <button id="nextBtn">Next ➡️</button>
+  </div>
+
+  <!-- Voice Page -->
+  <div id="voicePage">  
+    <h1>💌 REMINDER 💌</h1>
+    <audio controls autoplay>
+      <source src="music.mp3" type="audio/mpeg">
+      Browsermu tidak mendukung audio.
+    </audio>
   </div>
 
   <script>
@@ -203,12 +215,9 @@
     const gallery = document.getElementById("gallery");
     const galleryImage = document.getElementById("galleryImage");
     const nextBtn = document.getElementById("nextBtn");
+    const voicePage = document.getElementById("voicePage");
 
-    // Ganti dengan path gambar kamu
-    const images = [
-      "1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png"
-    ];
-
+    const images = ["1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png"];
     let currentImage = 0;
 
     openBtn.addEventListener("click", () => {
@@ -224,7 +233,7 @@
         galleryImage.onload = () => {
           galleryImage.classList.add("show");
         };
-      }, 400); // waktu fade out sebelum ganti gambar
+      }, 400);
     }
 
     nextBtn.addEventListener("click", () => {
@@ -233,7 +242,11 @@
         showImage(currentImage);
       } else {
         nextBtn.innerText = "Continue 🎉";
-        nextBtn.disabled = true;
+        nextBtn.disabled = false;
+        nextBtn.addEventListener("click", () => {
+          gallery.style.display = "none";
+          voicePage.style.display = "block";
+        }, { once: true });
       }
     });
 
@@ -242,9 +255,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
