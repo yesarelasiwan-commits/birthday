@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎂 Special Birthday Enggrid🎂</title>
+  <title>🎂 Happy Birthday 🎂</title>
   <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -93,8 +93,14 @@
       opacity: 1;
     }
 
-    #nextBtn {
+    .gallery-controls {
       margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .gallery-btn {
       padding: 12px 30px;
       border: none;
       border-radius: 40px;
@@ -106,7 +112,8 @@
       box-shadow: 0 0 15px rgba(56,249,215,0.6);
       transition: 0.3s;
     }
-    #nextBtn:hover {
+
+    .gallery-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px rgba(56,249,215,0.9);
     }
@@ -144,7 +151,7 @@
     @media (max-width: 480px) {
       h1 { font-size: 2em; }
       #message { font-size: 1em; line-height: 1.6; }
-      .btn, #nextBtn { font-size: 1em; padding: 10px 25px; }
+      .btn, .gallery-btn { font-size: 1em; padding: 10px 25px; }
     }
   </style>
 </head>
@@ -161,15 +168,17 @@
   <!-- Gallery -->
   <div id="gallery">
     <img id="galleryImage" src="" alt="Gallery Image">
-    <br>
-    <button id="nextBtn">Next ➡️</button>
+    <div class="gallery-controls">
+      <button id="backBtn" class="gallery-btn">⬅️ Back</button>
+      <button id="nextBtn" class="gallery-btn">Next ➡️</button>
+    </div>
   </div>
 
   <!-- Voice Page -->
-  <div id="voicePage">  
-    <h1>💌 REMINDER 💌</h1>
+  <div id="voicePage">
+    <h1>💌 Pesan Suara untukmu 💌</h1>
     <audio controls autoplay>
-      <source src="music.mp3" type="audio/mpeg">
+      <source src="voice.mp3" type="audio/mpeg">
       Browsermu tidak mendukung audio.
     </audio>
   </div>
@@ -215,6 +224,7 @@
     const gallery = document.getElementById("gallery");
     const galleryImage = document.getElementById("galleryImage");
     const nextBtn = document.getElementById("nextBtn");
+    const backBtn = document.getElementById("backBtn");
     const voicePage = document.getElementById("voicePage");
 
     const images = ["1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png"];
@@ -233,20 +243,28 @@
         galleryImage.onload = () => {
           galleryImage.classList.add("show");
         };
-      }, 400);
+      }, 300);
     }
 
     nextBtn.addEventListener("click", () => {
       if (currentImage < images.length - 1) {
         currentImage++;
         showImage(currentImage);
+        nextBtn.innerText = "Next ➡️";
       } else {
         nextBtn.innerText = "Continue 🎉";
-        nextBtn.disabled = false;
         nextBtn.addEventListener("click", () => {
           gallery.style.display = "none";
           voicePage.style.display = "block";
         }, { once: true });
+      }
+    });
+
+    backBtn.addEventListener("click", () => {
+      if (currentImage > 0) {
+        currentImage--;
+        showImage(currentImage);
+        nextBtn.innerText = "Next ➡️"; // reset kalau sebelumnya "Continue"
       }
     });
 
@@ -255,4 +273,3 @@
   </script>
 </body>
 </html>
-
